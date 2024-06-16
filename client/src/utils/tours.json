@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "Explore the Mountains",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Everest_North_Face_toward_Base_Camp_Tibet_Luca_Galuzzi_2006.jpg/1200px-Everest_North_Face_toward_Base_Camp_Tibet_Luca_Galuzzi_2006.jpg",
+    "duration": "5 days",
+    "price": 499.99,
+    "category": "group"
+  },
+  {
+    "id": 2,
+    "title": "Beach Paradise",
+    "image": "https://aebc975c.rocketcdn.me/wp-content/uploads/2020/12/plage.jpg",
+    "duration": "7 days",
+    "price": 699.99,
+    "category": "group"
+  },
+  {
+    "id": 3,
+    "title": "City Lights",
+    "image": "https://cdn.britannica.com/48/179448-138-40EABF32/Overview-New-York-City.jpg",
+    "duration": "3 days",
+    "price": 299.99,
+    "category": "individual"
+  }
+]
