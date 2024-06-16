@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { connectDB } from "./db/postgresConnection.mjs";
 import cors from "cors";
 import usersRouter from "./routes/index.mjs";
+import toursRouter from "./routes/index.mjs"
 import passport from "./strategies/auth.mjs";
 
 dotenv.config();
@@ -25,7 +26,7 @@ const startServer = async () => {
     app.use(passport.initialize());
 
     // PAKEISTI IR PRITAIKYTI. BUTINAI PASIDARYT routes su nuorodomis
-    app.use("/api/v1/testas", usersRouter);
+    app.use("/api/v1/testas", usersRouter, toursRouter);
 
     const PORT = process.env.PORT || 1000;
 
