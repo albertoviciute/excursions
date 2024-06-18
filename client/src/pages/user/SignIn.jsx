@@ -141,7 +141,7 @@ const SignIn = () => {
         <FormGroup>
           <Label>Email address</Label>
           <Input
-            type="text"
+            type="email"
             name="login"
             autoComplete="off"
             {...register("login", { required: "Email is required" })}
