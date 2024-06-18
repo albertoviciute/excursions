@@ -49,6 +49,26 @@ const tourModel = {
             throw error;
         }
     },
+    getTourById: async (tourId) => {
+        try {
+            const query = "SELECT * FROM tours WHERE id = $1";
+            const result = await pool.query(query, [tourId]);
+            return result.rows;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    },
+    getAllTours: async () => {
+        try {
+            const query = "SELECT * FROM tours";
+            const result = await pool.query(query);
+            return result.rows;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    },
 };
 
 export default tourModel;

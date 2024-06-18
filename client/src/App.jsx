@@ -11,6 +11,7 @@ import Tour from "./pages/tours/Tour";
 import CreateTour from "./pages/tours/CreateTour";
 import { AuthContext } from "./utils/AuthContext";
 import SignIn from "./pages/user/SignIn";
+import EditTour from "./pages/tours/EditTour";
 
 const Content = styled.div`
   min-height: calc(100vh - 138px);
@@ -34,7 +35,8 @@ function App() {
           <Route path="/tours/:id" element={<Tour />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/register" element={<Register />} />
-          {isAdmin && <Route path="/create-tour" element={<CreateTour />} />}
+          {isAdmin && (<Route path="/create-tour" element={<CreateTour />} />)}
+          {isAdmin && (<Route path="/edit-tour/:id" element={<EditTour />} />)}
         </Routes>
       </Content>
       <Footer />
