@@ -17,20 +17,25 @@ const userModel = {
     }
   },
   login: async ({ email }) => {
+    const result = await pool.query("SELECT * FROM users WHERE email = $1", [
+      email,
+    ]);
+    console.log(result);
+    if (result.rows.length === 0) {
+      throw new Error("User not found");
+    }
+    const user = result.rows[0];
+    return user;
+  },
+  getUserByEmail: async ({ email }) => {
     try {
       const result = await pool.query("SELECT * FROM users WHERE email = $1", [
         email,
       ]);
-
-      if (result.rows.length === 0) {
-        throw new Error("User not found");
-      }
-
-      const user = result.rows[0];
-      return user;
+      return result.rows[0];
     } catch (error) {
-      console.error("Error in login function:", error);
-      throw new Error("An error occurred while fetching user.");
+      console.error(error);
+      throw error;
     }
   },
 };

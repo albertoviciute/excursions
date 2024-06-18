@@ -42,6 +42,28 @@ const toursController = {
             res.status(500).json({ message: "Internal server error" });
         }
     },
+    getAllTours: async (req, res) => {
+        try {
+            const result = await tourModel.getAllTours();
+            res.status(200).json(result);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: "Internal server error" });
+        }
+    },
+    getToursById: async (req, res) => {
+        try {
+            const tourId = req.params.id;
+            const result = await tourModel.getTourById(tourId);
+            if (!result) {
+                return res.status(404).json({ message: "Tour not found" });
+            }
+            res.status(200).json(result);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: "Internal server error" });
+        }
+    }
 };
 
 export default toursController;
