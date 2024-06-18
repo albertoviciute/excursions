@@ -49,3 +49,6 @@ npm-shrinkwrap.json
 # System files
 .DS_Store
 Thumbs.db
+
+# Ignore package-lock.json
+package-lock.json

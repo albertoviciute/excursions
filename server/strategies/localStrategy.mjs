@@ -10,9 +10,10 @@ const localStrategy = new LocalStrategy(
   async (login, password, done) => {
     try {
       const user = await userModel.login({ email: login });
-
+      console.log(user);
       const match = await bcrypt.compare(password, user.password);
-
+      console.log(password, user.password);
+      console.log(match);
       if (!match) {
         return done(null, false, { message: "Invalid credentials." });
       }
@@ -23,7 +24,7 @@ const localStrategy = new LocalStrategy(
         return done(null, false, { message: error.message });
       }
     }
-  }
+  },
 );
 
 export default localStrategy;

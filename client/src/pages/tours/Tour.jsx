@@ -1,7 +1,8 @@
 import { styled } from "styled-components";
 import SyncLoader from "react-spinners/SyncLoader";
 import data from "../../utils/tours.json";
-
+import axios from "axios";
+import { useParams } from "react-router-dom";
 const Container = styled.div`
   text-align: center;
   padding: 48px 16px;
@@ -56,26 +57,24 @@ const TourDescription = styled.p`
 `;
 
 const Tour = () => {
-
-    
+  // const { id } = useParams();
+  // TO DO AXIOS FETCH BY ID
   return (
-    <Container >
+    <Container>
       <ToursSection>
         <SectionTitle>All Tours</SectionTitle>
         <TourList>
-          {data ? (
-            data?.map((tour) => (
-              <TourCard key={tour.id}>
-                <TourImage src={tour.image} alt={tour.title} />
-                <TourInfo>
-                  <TourTitle>{tour.title}</TourTitle>
-                  <TourDescription>{tour.description}</TourDescription>
-                </TourInfo>
-              </TourCard>
-            ))
+          {/* <TourCard key={tour.id}>
+            <TourImage src={tour.image} alt={tour.title} />
+            <TourInfo>
+              <TourTitle>{tour.title}</TourTitle>
+              <TourDescription>{tour.description}</TourDescription>
+            </TourInfo>
+          </TourCard> */}
+          {/* ))
           ) : (
             <SyncLoader color={"#f0f0f0"} loading={true} size={20} />
-          )}
+          )} */}
         </TourList>
       </ToursSection>
     </Container>

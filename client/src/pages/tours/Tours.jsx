@@ -56,11 +56,9 @@ const TourDescription = styled.p`
   color: #666;
 `;
 
-const Tours = ({
-  title, image
-}) => {
+const Tours = () => {
 
-  
+  //  TO DO AXIOS FETCH ALL
   const navigate = useNavigate();
   return (
     <Container>

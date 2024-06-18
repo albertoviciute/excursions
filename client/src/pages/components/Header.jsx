@@ -43,7 +43,7 @@ const Links = styled.ul`
 `;
 
 const Header = () => {
-  const { logoutUser, isAuthenticated } = useContext(AuthContext);
+  const { logoutUser, isAuthenticated, isAdmin } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -73,12 +73,17 @@ const Header = () => {
             ) : (
               <>
                 <LinkItem>
-                  <StyledLink to="/signup">Sign up</StyledLink>
+                  <StyledLink to="/sign-in">Sign in</StyledLink>
                 </LinkItem>
                 <LinkItem>
                   <StyledLink to="/register">Register</StyledLink>
                 </LinkItem>
               </>
+            )}
+            {isAdmin && (
+              <LinkItem>
+                <StyledLink to="/create-tour">Create tour</StyledLink>
+              </LinkItem>
             )}
           </Links>
         </Navigation>

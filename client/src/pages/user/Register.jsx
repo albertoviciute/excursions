@@ -114,7 +114,15 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+      repeatPassword: "",
+    },
+  });
+
   const [serverError, setServerError] = useState(null);
   const navigate = useNavigate();
 
@@ -145,17 +153,18 @@ const Register = () => {
   return (
     <RegistrationContainer>
       <FormTitle>Create an account</FormTitle>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
         <FormField>
-          <Label htmlFor="name">Username</Label>
+          <Label htmlFor="username">Username</Label>
           <Input
-            {...register("name", {
+            defaultValue=""
+            {...register("username", {
               required: true,
               minLength: 6,
               maxLength: 32,
             })}
           />
-          {errors.name && (
+          {errors.username && (
             <ErrorMessage>
               Username is required and must be between 6 and 32 characters
             </ErrorMessage>
@@ -167,6 +176,7 @@ const Register = () => {
           <Input
             type="email"
             required
+            defaultValue=""
             {...register("email", {
               required: true,
               pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -179,6 +189,7 @@ const Register = () => {
           <Label htmlFor="password">Password</Label>
           <Input
             type="password"
+            defaultValue=""
             {...register("password", {
               required: true,
               minLength: 8,
@@ -199,6 +210,7 @@ const Register = () => {
           <Label htmlFor="confirmPassword">Confirm Password</Label>
           <Input
             type="password"
+            defaultValue=""
             {...register("repeatPassword", { required: true })}
           />
           {errors.repeatPassword && (
@@ -214,7 +226,8 @@ const Register = () => {
         </MessagesContainer>
       )}
       <FormForSignIn>
-        Do you already have an account? <SignLink to="/sigmup">SignUp</SignLink>
+        Do you already have an account?{" "}
+        <SignLink to="/sign-in">Sign in</SignLink>
       </FormForSignIn>
     </RegistrationContainer>
   );

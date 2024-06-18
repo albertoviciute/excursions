@@ -10,12 +10,12 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
       try {
-        const user = jwtDecode(token);
-        setToken(token);
-        setUser(user);
+        const decodedUser = jwtDecode(storedToken);
+        setToken(storedToken);
+        setUser(decodedUser);
       } catch (error) {
         console.error("Failed to decode token:", error);
         localStorage.removeItem("token");
@@ -32,14 +32,14 @@ export const AuthProvider = ({ children }) => {
       });
 
       if (response.data && response.data.token) {
-        const token = response.data.token;
-        const user = jwtDecode(token);
+        const responseToken = response.data.token;
+        const decodedUser = jwtDecode(responseToken); // Correct usage
 
-        localStorage.setItem("token", token);
-        setToken(token);
-        setUser(user);
+        localStorage.setItem("token", responseToken);
+        setToken(responseToken);
+        setUser(decodedUser);
 
-        return { token, user };
+        return { token: responseToken, user: decodedUser };
       } else {
         throw new Error("Invalid response data");
       }

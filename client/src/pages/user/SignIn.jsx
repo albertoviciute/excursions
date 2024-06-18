@@ -74,7 +74,6 @@ const Button = styled.button`
 `;
 
 const ErrorMessage = styled.p`
-  font-family: "Poppins", sans-serif;
   font-size: 13px;
   color: #990000;
   padding-top: 0.3rem;
@@ -102,7 +101,7 @@ const MessagesContainer = styled.div`
   text-align: center;
 `;
 
-const SignUp = () => {
+const SignIn = () => {
   const navigate = useNavigate();
   const {
     register,
@@ -119,7 +118,6 @@ const SignUp = () => {
 
   const onSubmit = async (data) => {
     try {
-      console.log(data);
       await loginUser(data);
       navigate("/");
     } catch (error) {
@@ -138,7 +136,7 @@ const SignUp = () => {
 
   return (
     <Container>
-      <Title>Sign up</Title>
+      <Title>Sign in</Title>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
           <Label>Email address</Label>
@@ -179,4 +177,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignIn;
