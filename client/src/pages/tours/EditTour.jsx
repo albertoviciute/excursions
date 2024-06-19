@@ -35,7 +35,6 @@ const Label = styled.label`
   font-size: 16px;
   line-height: 24px;
   color: #666666;
-  text-align: justify-left;
 `;
 
 const Input = styled.input`
@@ -64,9 +63,7 @@ const Button = styled.button`
   max-width: 400px;
   font-weight: 600;
   font-size: 0.9rem;
-  transition:
-    background-color 0.3s ease,
-    border-color 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
   &:hover {
     background-color: #2a4b42;
   }
@@ -77,20 +74,6 @@ const LoadingContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 200px;
-`;
-
-const TypeSelect = styled.select`
-  height: 40px;
-  padding: 5px;
-  border: 1px solid rgba(221, 221, 221, 1);
-  border-radius: 4px;
-  outline: none;
-  color: #333333;
-  font-size: 16px;
-  &:focus {
-    border-color: #000;
-    outline: none;
-  }
 `;
 
 const ErrorMessage = styled.p`
@@ -105,7 +88,6 @@ const EditTour = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState();
   const [formData, setFormData] = useState({
     title: "",
     image: "",
@@ -114,13 +96,11 @@ const EditTour = () => {
     price: 0,
   });
 
-
-
   useEffect(() => {
     const fetchTour = async () => {
       try {
         const response = await axios.get(`${BASE_URL}/tours/${id}`);
-        const tourData = response.data;
+        const tourData = response.data[0];
         setFormData({
           title: tourData.title || "",
           image: tourData.image || "",
@@ -128,21 +108,22 @@ const EditTour = () => {
           duration: tourData.duration || "",
           price: tourData.price || 0,
         });
-
       } catch (error) {
         console.error("Error fetching tour:", error);
       }
     };
 
     fetchTour();
-  }, [id]);
+  }, [id, loading]);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm();
+  } = useForm({
+    defaultValues: formData,
+  });
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -167,14 +148,6 @@ const EditTour = () => {
     }
   };
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
   return (
     <Container>
       <Title>Edit Tour</Title>
@@ -184,8 +157,6 @@ const EditTour = () => {
           <Input
             type="text"
             name="title"
-            value={formData.title}
-            onChange={handleChange}
             {...register("title", {
               required: "Title is required.",
               minLength: {
@@ -200,14 +171,11 @@ const EditTour = () => {
           />
           {errors.title && <ErrorMessage>{errors.title.message}</ErrorMessage>}
         </FormField>
-        {/*
         <FormField>
           <Label>Image URL</Label>
           <Input
             type="text"
-            id="image"
-            value={data.image}
-            onChange={handleChange}
+            name="image"
             {...register("image", {
               required: "Image URL is required.",
             })}
@@ -216,23 +184,17 @@ const EditTour = () => {
         </FormField>
         <FormField>
           <Label>Type</Label>
-          <TypeSelect
+          <Input
+            type="text"
             name="category"
-            value={data.category}
-            onChange={handleChange}
             {...register("category")}
-          >
-            <option value="group">Group</option>
-            <option value="individual">Individual</option>
-          </TypeSelect>
+          />
         </FormField>
         <FormField>
           <Label>Duration</Label>
           <Input
-            name="duration"
             type="text"
-            value={data.duration}
-            onChange={handleChange}
+            name="duration"
             {...register("duration", {
               required: "Duration is required.",
             })}
@@ -244,11 +206,8 @@ const EditTour = () => {
         <FormField>
           <Label>Price</Label>
           <Input
-            id="price"
             type="number"
-            step="0.01"
-            value={data.price}
-            onChange={handleChange}
+            name="price"
             {...register("price", {
               required: "Price is required.",
               valueAsNumber: true,
@@ -259,7 +218,7 @@ const EditTour = () => {
             })}
           />
           {errors.price && <ErrorMessage>{errors.price.message}</ErrorMessage>}
-        </FormField> */}
+        </FormField>
 
         {errors.api && <ErrorMessage>{errors.api.message}</ErrorMessage>}
         {loading ? (

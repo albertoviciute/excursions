@@ -1,8 +1,10 @@
+import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import SyncLoader from "react-spinners/SyncLoader";
-import data from "../../utils/tours.json";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../utils/api"; // Assuming you have BASE_URL defined in your API utils
+
 const Container = styled.div`
   text-align: center;
   padding: 48px 16px;
@@ -56,25 +58,57 @@ const TourDescription = styled.p`
   color: #666;
 `;
 
+const Button = styled.button``;
+
 const Tour = () => {
-  // const { id } = useParams();
-  // TO DO AXIOS FETCH BY ID
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [tour, setTour] = useState(null);
+
+  useEffect(() => {
+    const fetchTour = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`${BASE_URL}/tours/${id}`);
+        setTour(response.data);
+      } catch (error) {
+        console.error("Error fetching tour:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTour();
+  }, [id]);
+  const handleDelete = () => {
+    axios.delete(`${BASE_URL}/tours/${id}`);
+    navigate("/tours");
+  };
   return (
     <Container>
       <ToursSection>
-        <SectionTitle>All Tours</SectionTitle>
         <TourList>
-          {/* <TourCard key={tour.id}>
-            <TourImage src={tour.image} alt={tour.title} />
-            <TourInfo>
-              <TourTitle>{tour.title}</TourTitle>
-              <TourDescription>{tour.description}</TourDescription>
-            </TourInfo>
-          </TourCard> */}
-          {/* ))
-          ) : (
+          {loading ? (
             <SyncLoader color={"#f0f0f0"} loading={true} size={20} />
-          )} */}
+          ) : (
+            tour && (
+              <>
+                <SectionTitle>Title: {tour[0].title}</SectionTitle>
+                <TourCard key={id}>
+                  <TourImage src={tour[0].image} alt={tour[0].title} />
+                  <TourInfo>
+                    <TourTitle>{tour[0].price} EUR</TourTitle>
+                    <TourDescription>{tour[0].duration}</TourDescription>
+                  </TourInfo>
+                  <Button onClick={handleDelete}>Delete</Button>
+                  <Button onClick={() => navigate(`/edit-tour/${id}`)}>
+                    Edit
+                  </Button>
+                </TourCard>
+              </>
+            )
+          )}
         </TourList>
       </ToursSection>
     </Container>

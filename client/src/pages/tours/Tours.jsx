@@ -1,7 +1,9 @@
 import { styled } from "styled-components";
 import SyncLoader from "react-spinners/SyncLoader";
-import data from "../../utils/tours.json";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { BASE_URL } from "../../utils/api";
 
 const Container = styled.div`
   text-align: center;
@@ -34,6 +36,7 @@ const TourCard = styled.div`
   margin: 10px;
   overflow: hidden;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer; 
 `;
 
 const TourImage = styled.img`
@@ -57,16 +60,33 @@ const TourDescription = styled.p`
 `;
 
 const Tours = () => {
-
-  //  TO DO AXIOS FETCH ALL
+  const [tours, setTours] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchTours = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`${BASE_URL}/tours/`);
+        setTours(response.data);
+      } catch (error) {
+        console.error("Error fetching tours:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTours();
+  }, [loading]);
+
   return (
     <Container>
       <ToursSection>
         <SectionTitle>All Tours</SectionTitle>
         <TourList>
-          {data ? (
-            data?.map((tour) => (
+          {tours ? (
+            tours.map((tour) => (
               <TourCard
                 key={tour.id}
                 onClick={() => navigate(`/tours/${tour.id}`)}
@@ -79,7 +99,7 @@ const Tours = () => {
               </TourCard>
             ))
           ) : (
-            <SyncLoader color={"#f0f0f0"} loading={true} size={20} />
+            <SyncLoader color={"#f0f0f0"} loading={loading} size={20} />
           )}
         </TourList>
       </ToursSection>
